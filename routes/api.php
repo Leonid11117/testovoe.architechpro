@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Moderators\IndexController;
+use App\Http\Controllers\Moderators\DeleteController;
+use App\Http\Controllers\Moderators\UpdateController;
+use App\Http\Controllers\Moderators\CreateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'moderators', 'name' => 'moderators'], static function (\Illuminate\Routing\Router $router) {
+    $router->post('/', CreateController::class);
+    $router->get('/', IndexController::class);
+    $router->put('/{id}', UpdateController::class)->whereNumber('id');
+    $router->delete('/{id}', DeleteController::class)->whereNumber('id');
 });
